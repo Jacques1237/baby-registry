@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baby Shower Registry 💕</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Animated Background -->
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="page-wrapper">
+
+    <!-- ── Navigation ──────────────────────────────────────────────────── -->
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <span class="nav-logo" id="nav-logo">💕 Baby Registry</span>
+        <div class="nav-links">
+          <a href="#registry" class="nav-link">Registry</a>
+          <button class="btn btn-outline btn-sm" onclick="toggleAdminPanel()">Admin</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ── Hero ──────────────────────────────────────────────────────────── -->
+    <section class="hero" id="top">
+      <div class="hero-decoration hero-dec-left">✿</div>
+      <div class="hero-decoration hero-dec-right">✿</div>
+
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-line"></span>
+          <span class="eyebrow-text" id="hero-eyebrow-text">Baby Shower Registry</span>
+          <span class="eyebrow-line"></span>
+        </div>
+
+        <h1 class="hero-title">
+          Welcome to Our<br />
+          <em>Baby Girl</em> Registry
+        </h1>
+
+        <p class="hero-subtitle">
+          We are so grateful for your love and support as we prepare to welcome our little one into the world. Every gift is cherished from the bottom of our hearts.
+        </p>
+
+        <div class="hero-divider">
+          <span class="divider-gem"></span>
+          <span class="divider-line"></span>
+          <span class="divider-heart">♡</span>
+          <span class="divider-line"></span>
+          <span class="divider-gem"></span>
+        </div>
+
+        <div class="counter-bar">
+          <div class="counter-pill counter-pill-available">
+            <div class="counter-icon">🎀</div>
+            <div class="counter-text">
+              <span class="counter-num" id="counter-available">0</span>
+              <span class="counter-label">gifts available</span>
+            </div>
+          </div>
+          <div class="counter-pill counter-pill-purchased">
+            <div class="counter-icon">✓</div>
+            <div class="counter-text">
+              <span class="counter-num" id="counter-purchased">0</span>
+              <span class="counter-label">gifts purchased</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-wave">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="hero-wave-path" d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ── Registry Section ───────────────────────────────────────────────── -->
+    <section class="registry-section" id="registry">
+      <div class="section-container">
+
+        <div class="section-header">
+          <p class="section-eyebrow">The Wishlist</p>
+          <h2 class="section-title">Gift Registry</h2>
+          <p class="section-subtitle" id="registry-subtitle">Browse our curated collection of items we'd love for our little girl.</p>
+        </div>
+
+        <div class="registry-grid" id="registry-grid">
+          <!-- Cards injected by JS -->
+        </div>
+
+        <div class="empty-state" id="empty-state" style="display:none;">
+          <div class="empty-icon">🎀</div>
+          <h3 class="empty-title">All Gifts Purchased!</h3>
+          <p class="empty-body">Thank you so much for your incredible generosity.<br>Contact the admin to reset items if needed.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Admin Toggle Bar ──────────────────────────────────────────────── -->
+    <div class="admin-toggle-bar" id="admin-anchor">
+      <button class="btn btn-ghost" id="admin-toggle-btn" onclick="toggleAdminPanel()">
+        <span class="btn-icon-text">⚙</span> Admin Panel
+      </button>
+    </div>
+
+    <!-- ── Admin Panel ───────────────────────────────────────────────────── -->
+    <div class="admin-panel" id="admin-panel">
+      <div class="admin-inner">
+
+        <!-- Login -->
+        <div id="admin-login-view">
+          <div class="admin-login-card">
+            <div class="login-icon">🔒</div>
+            <h2>Admin Access</h2>
+            <p>Enter the password to manage your registry.</p>
+            <div class="form-group">
+              <label for="admin-password-input">Password</label>
+              <div class="input-wrapper">
+                <input type="password" id="admin-password-input" placeholder="Enter password…"
+                  onkeydown="if(event.key==='Enter') adminLogin()" />
+              </div>
+            </div>
+            <button class="btn btn-primary btn-full" onclick="adminLogin()">Unlock Admin Panel</button>
+          </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="admin-dashboard-view" style="display:none;">
+
+          <div class="admin-header">
+            <h2 class="admin-title">Registry Manager</h2>
+            <button class="btn btn-ghost btn-sm" onclick="adminLogout()">🔒 Lock</button>
+          </div>
+
+          <!-- Theme switcher -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <span class="admin-card-icon">✦</span>
+              <h3>Registry Theme</h3>
+            </div>
+            <p class="theme-desc">Choose a colour palette to match your baby's nursery.</p>
+            <div class="theme-options">
+              <button class="theme-btn theme-btn-girl" id="theme-btn-girl" onclick="switchTheme('girl')">
+                <span class="theme-swatch theme-swatch-girl"></span>
+                <div class="theme-btn-text">
+                  <span class="theme-btn-label">Baby Girl</span>
+                  <span class="theme-btn-sub">Blush &amp; Rose</span>
+                </div>
+                <span class="theme-check">✓</span>
+              </button>
+              <button class="theme-btn theme-btn-boy" id="theme-btn-boy" onclick="switchTheme('boy')">
+                <span class="theme-swatch theme-swatch-boy"></span>
+                <div class="theme-btn-text">
+                  <span class="theme-btn-label">Baby Boy</span>
+                  <span class="theme-btn-sub">Sky &amp; Steel Blue</span>
+                </div>
+                <span class="theme-check">✓</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Add item form -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <span class="admin-card-icon">✦</span>
+              <h3>Add New Item</h3>
+            </div>
+            <div class="form-group">
+              <label>Item Name</label>
+              <input type="text" id="new-item-name" placeholder="e.g. Ergobaby Omni 360 Carrier" />
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Price</label>
+                <input type="text" id="new-item-price" placeholder="e.g. $189.00" />
+              </div>
+              <div class="form-group">
+                <label>Image URL</label>
+                <input type="url" id="new-item-image" placeholder="https://…" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Product URL</label>
+              <input type="url" id="new-item-url" placeholder="https://amazon.com/…" />
+            </div>
+            <button class="btn btn-primary btn-full" onclick="adminAddItem()">
+              Add to Registry
+            </button>
+          </div>
+
+          <!-- Manage items -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <span class="admin-card-icon">✦</span>
+              <h3>Manage Items</h3>
+            </div>
+            <div class="admin-items-list" id="admin-items-list"></div>
+            <div id="admin-empty" class="admin-empty-msg" style="display:none;">
+              No items in the registry yet.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Footer ─────────────────────────────────────────────────────────── -->
+    <footer class="site-footer">
+      <div class="footer-heart" id="footer-heart">♡</div>
+      <p id="footer-tagline">Made with love for our baby girl</p>
+    </footer>
+
+  </div><!-- /page-wrapper -->
+
+  <!-- ── Confirm Modal ─────────────────────────────────────────────────── -->
+  <div class="modal-overlay hidden" id="confirm-modal">
+    <div class="modal-box">
+      <div class="modal-icon" id="modal-icon">⚠️</div>
+      <h2 id="modal-title">Are you sure?</h2>
+      <p id="modal-body">This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost btn-full" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-danger btn-full" id="modal-confirm-btn">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Toast Container ───────────────────────────────────────────────── -->
+  <div id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
