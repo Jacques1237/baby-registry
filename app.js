@@ -2,7 +2,7 @@
    BABY GIRL REGISTRY — app.js  (next-level 3D edition)
 ═══════════════════════════════════════════════════════════════════════════ */
 
-const ADMIN_PASSWORD = 'baby2025';
+const ADMIN_PASSWORD = 'baby2026';
 const LS_KEY         = 'registry_items_v3';
 
 /* Declared up here so IIFEs below can reference them safely */

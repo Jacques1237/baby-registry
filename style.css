@@ -1129,6 +1129,12 @@ html[data-theme="boy"] .card-ribbon {
     inset 0 1px 0 rgba(255,255,255,.9);
 }
 
+/* status-available badge */
+html[data-theme="boy"] .status-available {
+  background: rgba(136,196,238,.2);
+  border-color: rgba(136,196,238,.4);
+}
+
 /* rotating border gradient */
 html[data-theme="boy"] .card-scene::before {
   background: linear-gradient(
@@ -1194,6 +1200,81 @@ html[data-theme="boy"] .hero-title em {
     6px 6px 0   rgba(33,98,160,.10),
     7px 7px 0   rgba(33,98,160,.06),
     10px 14px 24px rgba(33,98,160,.28);
+}
+
+/* hero decoration glyphs tint */
+html[data-theme="boy"] .hero-decoration {
+  color: rgba(136,196,238,.13);
+}
+
+/* counter number 3D text-shadow */
+html[data-theme="boy"] .counter-num {
+  text-shadow: 1px 2px 0 rgba(58,134,204,.2), 2px 4px 8px rgba(58,134,204,.15);
+}
+
+/* card border tint */
+html[data-theme="boy"] .card {
+  border-color: rgba(136,196,238,.2);
+}
+
+/* delete icon button — deep navy so it still reads as "danger" */
+html[data-theme="boy"] .btn-icon-delete {
+  background: rgba(21,68,140,.14);
+  color: #1a4f8a;
+}
+html[data-theme="boy"] .btn-icon-delete:hover {
+  background: rgba(21,68,140,.22);
+  box-shadow: 0 4px 12px rgba(21,68,140,.2);
+}
+
+/* ghost / outline button borders */
+html[data-theme="boy"] .btn-ghost {
+  border-color: rgba(136,196,238,.55);
+  box-shadow: 0 2px 0 rgba(100,170,210,.2);
+}
+html[data-theme="boy"] .btn-ghost:hover {
+  box-shadow: 0 4px 0 rgba(100,170,210,.2), 0 8px 16px rgba(58,134,204,.12);
+}
+html[data-theme="boy"] .btn-outline {
+  border-color: rgba(136,196,238,.55);
+}
+
+/* admin login card ring + heading shadow */
+html[data-theme="boy"] .admin-login-card {
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(136,196,238,.1);
+}
+html[data-theme="boy"] .admin-login-card h2 {
+  text-shadow: 1px 2px 4px rgba(58,134,204,.15);
+}
+
+/* admin cards ring */
+html[data-theme="boy"] .admin-card {
+  box-shadow: var(--shadow-md), 0 0 0 1px rgba(136,196,238,.1);
+}
+html[data-theme="boy"] .admin-card:hover {
+  box-shadow: var(--shadow-lg), 0 0 0 1px rgba(136,196,238,.15);
+}
+
+/* form input focus glow */
+html[data-theme="boy"] .form-group input:focus,
+html[data-theme="boy"] .form-group textarea:focus {
+  box-shadow: 0 0 0 4px rgba(136,196,238,.18), 0 2px 8px rgba(58,134,204,.1);
+}
+
+/* modal ring */
+html[data-theme="boy"] .modal-box {
+  box-shadow: var(--shadow-xl), 0 0 0 1px rgba(136,196,238,.12);
+}
+
+/* toast ring */
+html[data-theme="boy"] .toast {
+  box-shadow: 0 12px 48px rgba(15,45,74,.18), 0 2px 8px rgba(15,45,74,.08), 0 0 0 1px rgba(136,196,238,.12);
+}
+
+/* footer border + background */
+html[data-theme="boy"] .site-footer {
+  border-top-color: rgba(136,196,238,.18);
+  background: linear-gradient(to bottom, var(--cream), #eaf4fc);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
