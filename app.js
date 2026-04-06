@@ -717,6 +717,11 @@ function applyTheme(theme) {
   ['girl','boy'].forEach(t => {
     document.getElementById(`theme-btn-${t}`)?.classList.toggle('active', t === theme);
   });
+
+  // favicon
+  const emoji = theme === 'boy' ? '🧸' : '🍼';
+  document.getElementById('favicon').href =
+    `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>${emoji}</text></svg>`;
 }
 
 function switchTheme(theme) {
