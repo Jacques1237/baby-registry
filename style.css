@@ -395,6 +395,42 @@ body {
            .card-shimmer    → sweep shine on hover
          .card-ribbon       → translateZ(38px) — genuinely floats above card
 ═══════════════════════════════════════════════════════════════════════════ */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 36px;
+  justify-content: center;
+}
+
+.filter-btn {
+  padding: 9px 20px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid rgba(242,167,187,.35);
+  background: rgba(255,255,255,.7);
+  color: var(--brown-light);
+  font-family: 'Lato', sans-serif;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  cursor: pointer;
+  transition: all .2s var(--ease-out);
+  backdrop-filter: blur(6px);
+}
+
+.filter-btn:hover {
+  border-color: var(--rose);
+  color: var(--rose);
+  background: rgba(242,167,187,.1);
+}
+
+.filter-btn.active {
+  background: linear-gradient(160deg, var(--blush), var(--rose));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(201,126,138,.35);
+}
+
 .registry-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));

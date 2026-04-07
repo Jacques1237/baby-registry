@@ -192,6 +192,45 @@ const BURST_GLYPHS = {
 ═══════════════════════════════════════════════════════════════════════════ */
 function uid() { return Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
 
+const ITEM_CATEGORIES = {
+  // Feeding
+  bx1mixsmnmaand9: 'feeding', a9wshpcmnmac4nf: 'feeding', z8zf9tgmnmaezmi: 'feeding',
+  ew0ku1lmnmago0m: 'feeding', mscgn1hmnmahxpf: 'feeding', '11r86pjmnmamfd9': 'feeding',
+  miy36tsmnmaoedh: 'feeding', '0wesn2hmnmarwjx': 'feeding', '0m63ceqmnmax9qg': 'feeding',
+  g10en8umnmayo5q: 'feeding', '4kcybn4mnmazvae': 'feeding', '8c6rj3wmnmb7d4t': 'feeding',
+  '9y0ocmsmnmb8le4': 'feeding', b3esw24mnmbk6ne: 'feeding', xxry1p2mnmbl6ky: 'feeding',
+  zbhuczumnooxxfo: 'feeding',
+  // Skincare
+  pmxddb8mnm9jd2m: 'skincare', e2r76otmnm9orjf: 'skincare', cj4eo4mmnma5x38: 'skincare',
+  fz5g819mnmb18zc: 'skincare', tx11qkpmnmb2lec: 'skincare', v4qf88rmnmb41sp: 'skincare',
+  ds8f09tmnmb5wd7: 'skincare', '6vtik2nmnmbfleu': 'skincare',
+  // Bath
+  wsj74lvmnmbbfth: 'bath', i0o92c3mnmbj65f: 'bath', c4x14qsmnmbmwd1: 'bath',
+  '1gb1jadmnop3tgd': 'bath', gt2ii0smnop72yp: 'bath',
+  // Health
+  ts3pglgmnma7vgr: 'health', o3y31q2mnop03li: 'health', q9ng3sfmnop4qku: 'health',
+  nrmje2qmnop6n01: 'health',
+  // Nursery
+  qp1adv6mnmbehk2: 'nursery', wqv2ta6mnoozjtb: 'nursery', '9q5u6pnmnop2a0e': 'nursery',
+  w63xueamnop2ox6: 'nursery', wnv2o6dmnop3474: 'nursery',
+  // Mommy
+  '88gf5vtmnmbh3r8': 'mommy', rngthipmnop0rz1: 'mommy', x1s3rk8mnop1ek6: 'mommy',
+  '3rsdeu3mnop1tuh': 'mommy',
+  // Accessories
+  qhieg14mnmbotrc: 'accessories', utjmojkmnmbi7wo: 'accessories', '7z01u4dmnoowetq': 'accessories',
+  c6x9zgmmnop5anv: 'accessories', oouvmsrmnop5yu1: 'accessories', vw0wcdamnop4bar: 'accessories',
+};
+
+let activeFilter = 'all';
+
+function setFilter(cat) {
+  activeFilter = cat;
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick') === `setFilter('${cat}')`);
+  });
+  renderRegistry();
+}
+
 const DEFAULT_ITEMS = [
   { id: "pmxddb8mnm9jd2m", name: "Epi-max Baby/junior Lotion 450ml", price: "R 94.49", image: "https://www.dischem.co.za/api/catalog/product/6/0/6006340003804_56f50a52945dc2a21ae39e2a8faa915b.jpg?store=default&image-type=image", url: "https://www.dischem.co.za/epi-max-baby-junior-lotion-450ml-205", purchased: false },
   { id: "e2r76otmnm9orjf", name: "Epi-max Baby & Junior Body Wash 450ml", price: "R 98.99", image: "https://www.dischem.co.za/api/catalog/product/6/0/6009695589313_98016322fc7cde34559a0907d2a8d1fe.jpg?store=default&image-type=image", url: "https://www.dischem.co.za/epi-max-baby-junior-body-wash-450ml-182", purchased: false },
@@ -271,13 +310,17 @@ function renderRegistry() {
   document.getElementById('counter-available').textContent = available.length;
   document.getElementById('counter-purchased').textContent = purchased.length;
 
+  const filtered = activeFilter === 'all'
+    ? available
+    : available.filter(i => ITEM_CATEGORIES[i.id] === activeFilter);
+
   grid.innerHTML = '';
 
   if (available.length === 0) {
     emptyMsg.style.display = 'block';
   } else {
     emptyMsg.style.display = 'none';
-    available.forEach(item => grid.appendChild(buildCard(item)));
+    filtered.forEach(item => grid.appendChild(buildCard(item)));
   }
 }
 
