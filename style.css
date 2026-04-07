@@ -1454,6 +1454,7 @@ html[data-theme="boy"] .site-footer {
 }
 
 @media (max-width: 580px) {
+  .btt-wrapper { width: 45px; height: 45px; bottom: 24px; right: 24px; }
   .registry-grid { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
   .card-actions { flex-direction: column; }
