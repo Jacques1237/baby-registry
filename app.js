@@ -815,4 +815,33 @@ function switchTheme(theme) {
    INIT
 ═══════════════════════════════════════════════════════════════════════════ */
 applyTheme(localStorage.getItem(THEME_LS_KEY) || 'girl');
+
+const _bttWrapper = document.getElementById('btt-wrapper');
+const _bttScene   = document.getElementById('btt-scene');
+
+window.addEventListener('scroll', () => {
+  _bttWrapper.classList.toggle('visible', window.scrollY > 250);
+}, { passive: true });
+
+/* 3D tilt on hover — same lerp system as the cards */
+(function() {
+  let tx = 0, ty = 0, cx = 0, cy = 0, isOver = false, raf = null;
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function tick() {
+    cx = lerp(cx, tx, isOver ? .12 : .08);
+    cy = lerp(cy, ty, isOver ? .12 : .08);
+    _bttScene.style.transform = `rotateX(${cx}deg) rotateY(${cy}deg)`;
+    if (Math.abs(cx - tx) > .01 || Math.abs(cy - ty) > .01 || isOver)
+      raf = requestAnimationFrame(tick);
+    else { cx = tx; cy = ty; _bttScene.style.transform = ''; }
+  }
+  _bttWrapper.addEventListener('mouseenter', () => { isOver = true; cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); });
+  _bttWrapper.addEventListener('mousemove', e => {
+    const r  = _bttWrapper.getBoundingClientRect();
+    const nx = ((e.clientX - r.left) / r.width  - .5) * 2;
+    const ny = ((e.clientY - r.top)  / r.height - .5) * 2;
+    tx = -ny * 18; ty = nx * 18;
+  });
+  _bttWrapper.addEventListener('mouseleave', () => { isOver = false; tx = 0; ty = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); });
+})();
 initItems();
