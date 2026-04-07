@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(git --version)",
-      "Bash(gh --version)"
+      "Bash(gh --version)",
+      "WebFetch(domain:cinnaspice.co.za)",
+      "WebFetch(domain:www.babiesrus.co.za)",
+      "WebFetch(domain:www.takealot.com)",
+      "WebFetch(domain:www.mapetite.co.za)",
+      "WebFetch(domain:www.ackermans.co.za)"
     ]
   }
 }

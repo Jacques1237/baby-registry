@@ -405,6 +405,7 @@ body {
 .card-wrapper {
   perspective: 900px;
   perspective-origin: 50% 35%;
+  height: 100%;
 }
 
 /* ── Scene: the 3D stage ──────────────────────────────────────────────────── */
@@ -412,6 +413,7 @@ body {
   position: relative;
   transform-style: preserve-3d;
   will-change: transform;
+  height: 100%;
   cursor: pointer;
   /* animated rotating border via pseudo-element */
 }
@@ -468,6 +470,9 @@ body {
   position: relative;
   background: var(--white);
   border-radius: var(--radius-lg);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   transform: translateZ(0px);
   border: 1px solid rgba(242,167,187,.2);
@@ -594,6 +599,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  flex: 1;
 }
 
 .card-title {
@@ -602,9 +608,10 @@ body {
   font-weight: 600;
   color: var(--brown);
   line-height: 1.4;
+  flex: 1;
 }
 
-.card-actions { display: flex; gap: 9px; }
+.card-actions { display: flex; gap: 9px; margin-top: auto; }
 
 /* ── Floating price ribbon — genuinely in 3D space ───────────────────────── */
 .card-ribbon {

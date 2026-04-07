@@ -3,7 +3,9 @@
 ═══════════════════════════════════════════════════════════════════════════ */
 
 const ADMIN_PASSWORD = 'baby2026';
-const LS_KEY         = 'registry_items_v3';
+const SUPABASE_URL = 'https://sukwrxhagpizxktfyibc.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1a3dyeGhhZ3BpenhrdGZ5aWJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NzAzODUsImV4cCI6MjA5MTE0NjM4NX0.mixhGsJJpUcs74iaVj9aGac7rGGy4ZNHgGsHLpRAe18';
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /* Declared up here so IIFEs below can reference them safely */
 const HERO_GLYPHS = {
@@ -222,16 +224,40 @@ const DEFAULT_ITEMS = [
   { id: "xxry1p2mnmbl6ky", name: "MILK SAVER PUMP 110ML", price: "R 169.90", image: "https://www.babiesrus.co.za/api/catalog/product/4/9/4902508269148_imageoutofpack.png?width=630&height=630&store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/milk-saver-pump-110ml", purchased: false },
   { id: "c4x14qsmnmbmwd1", name: "Snuggletime Hooded Towel and 3 Washcloths", price: "R 149.90", image: "https://www.babiesrus.co.za/api/catalog/product/6/0/6009711553397_imageoutofpack_53616f792109bf6256223590a9f0cb90.png?width=630&height=630&store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/snuggletime-hooded-towel-and-3-washcloths-princess-3001997", purchased: false },
   { id: "qhieg14mnmbotrc", name: "Tatum 3 in 1 Baby Carrier", price: "R 449.90", image: "https://www.babiesrus.co.za/api/catalog/product/6/0/6009900315331_imageoutofpack.jpg?width=630&height=630&store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/tatum-3-in-1-baby-carrier-1176018", purchased: false },
+  { id: "7z01u4dmnoowetq", name: "Lunakins Baby Hangers - Pink", price: "R 39.90", image: "https://www.babiesrus.co.za/api/catalog/product/3/0/3008921001001_imageoutofpack_c253aa1abe534885e1518af53e2fcf4f.png?width=630&height=630&store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/lunakins-baby-hangers-pink-10pk-3008921", purchased: false },
+  { id: "zbhuczumnooxxfo", name: "Jungle Juice Sachets - 10s", price: "R 199.90", image: "https://www.babiesrus.co.za/api/catalog/product/6/0/6009888674031_imageoutofpack.png?width=630&height=630&store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/jungle-juice-enhanced-breast-milk-production-1192135", purchased: false },
+  { id: "wqv2ta6mnoozjtb", name: "Baby Nest Pod", price: "R 650", image: "https://cinnaspice.co.za/wp-content/uploads/2024/12/ChatGPT-Image-Feb-10-2026-at-05_50_06-PM.png", url: "https://cinnaspice.co.za/shop/baby/baby-room-nursery/cot-and-crib-everything-for-cot-your-crib/baby-nest-pod/baby-safe-nest-safe-sleeping-pod-soft-boho-floral-dusty-pink-set/", purchased: false },
+  { id: "o3y31q2mnop03li", name: "Vital Baby Protect 4-in-1 Contactless Thermometer", price: "R 1,199.90", image: "https://www.babiesrus.co.za/api/catalog/product/5/0/5060702872799_imageoutofpack_b778f2be591616b7db6376541dd3dfd2.png?width=630&height=630&store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/vital-baby-protect-4-in-1-contactless-thermometer-1184556", purchased: false },
+  { id: "rngthipmnop0rz1", name: "Belly Binder Black S/M", price: "R 579.90", image: "https://www.babiesrus.co.za/api/catalog/product/6/0/6009625956260_imageoutofpack_13534adca5a145b4bf5edf8d33d044f4.png?width=630&height=630&store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/carriwell-belly-binder-black-smallmedium-1074165", purchased: false },
+  { id: "x1s3rk8mnop1ek6", name: "Maternity Pads 12's", price: "R 34.90", image: "https://www.babiesrus.co.za/api/catalog/product/6/0/6009625950053_imageoutofpack_6ff37ccc0a83b862d01252b02efced1b.png?store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/carriwell-maternity-pads-1078883", purchased: false },
+  { id: "3rsdeu3mnop1tuh", name: "Carriwell Linen Saver 10's", price: "R 74.90", image: "https://www.babiesrus.co.za/api/catalog/product/6/0/6009625950183_imageoutofpack_9b726d11cc7a59c01f620dad3e5fe6c2.png?width=630&height=630&store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/carriwell-linen-savers-1s-1088871", purchased: false },
+  { id: "9q5u6pnmnop2a0e", name: "Snuggletime Plush Bubble Snuggle Pillow", price: "R 359.90", image: "https://www.babiesrus.co.za/api/catalog/product/6/0/6006759003495_imageview5top.png?width=630&height=630&store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/plush-bubble-snuggle-pillow-1169633", purchased: false },
+  { id: "w63xueamnop2ox6", name: "Multi Seat - Cradle Pink", price: "R 1,199.90", image: "https://www.babiesrus.co.za/api/catalog/product/1/1/1178551_1.png?width=630&height=630&store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/multi-seat-cradle-pink", purchased: false },
+  { id: "wnv2o6dmnop3474", name: "Bumbo Changing Pad - Taupe", price: "R 999.90", image: "https://www.babiesrus.co.za/api/catalog/product/8/3/832223002710_imageoutofpack_54bf4a2f66ed456afd651ac1e5874967.png?width=630&height=630&store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/bumbo-changing-pad-taupe-3006578", purchased: false },
+  { id: "1gb1jadmnop3tgd", name: "Foldable Bath Tub", price: "R 649", image: "https://media.takealot.com/covers_images/4446231a98124198b47824024f145505/s-zoom.file", url: "https://www.takealot.com/foldable-bath-tub-with-shower-holder-pillow-pad-and-built-in-the/PLID90989795?colour_variant=Pink", purchased: false },
+  { id: "vw0wcdamnop4bar", name: "Monthly Milestone Plaques", price: "R 570", image: "https://www.mapetite.co.za/cdn/shop/products/Monthly-Milestone-Plaques-Floral_32b44862-2879-439c-88ac-cb2387599a19.jpg?v=1629486724", url: "https://www.mapetite.co.za/collections/monthly-milestone-plaques/products/monthly-milestone-plaques-floral?variant=31898948567109", purchased: false },
+  { id: "q9ng3sfmnop4qku", name: "Calpol Paediatric Suspension 50ml", price: "R 59.95", image: "https://www.ackermans.co.za/cdn/shop/files/PR49637BI27356_124843_CALPOL_50ML_PAEDIATRIC_SUSPENSION_SZ4.webp?v=1761961633&width=713", url: "https://www.ackermans.co.za/products/calpol-paediatric-suspension-50ml-sku-124843", purchased: false },
+  { id: "c6x9zgmmnop5anv", name: "6 Baby Nylon Headbands with Bows", price: "R 289", image: "https://media.takealot.com/covers_images/280a45cdf53d4f778656643cdcf55287/s-zoom.file", url: "https://www.takealot.com/6-baby-nylon-headbands-with-bows-with-bows-for-baby/PLID98498720", purchased: false },
+  { id: "oouvmsrmnop5yu1", name: "3 Pcs Baby Flower Headbands", price: "R 221", image: "https://media.takealot.com/covers_images/c66b413fda0f4fa688c2e45f5afd1474/s-zoom.file", url: "https://www.takealot.com/3-pcs-baby-flower-headbands-girls-headbands-soft-hairbands-hair/PLID96485255", purchased: false },
+  { id: "nrmje2qmnop6n01", name: "Vicks Baby Rub 45g", price: "R 79.90", image: "https://assets.woolworthsstatic.co.za/Vicks-BabyRub-45-g-8001841098449.jpg?V=UIpr&o=eyJidWNrZXQiOiJ3dy1vbmxpbmUtaW1hZ2UtcmVzaXplIiwia2V5IjoiaW1hZ2VzL2VsYXN0aWNlcmEvcHJvZHVjdHMvaGVyby8yMDI1LTA1LTE5LzgwMDE4NDEwOTg0NDlfaGVyby5qcGcifQ&w=800&q=85", url: "https://www.babiesrus.co.za/vicks-baby-chest-rub-5g-1161413", purchased: false },
+  { id: "gt2ii0smnop72yp", name: "Dream Baby Bath Thermometer - Fish", price: "R 99.90", image: "https://www.babiesrus.co.za/api/catalog/product/9/3/9312742301613_imageview2left.png?width=630&height=630&store=babiesrus&image-type=image", url: "https://www.babiesrus.co.za/fish-bath-thermometer-f161", purchased: false },
 ];
 
-function loadItems() {
-  try { const r = localStorage.getItem(LS_KEY); if (r) return JSON.parse(r); } catch (_) {}
-  return DEFAULT_ITEMS;
-}
-function saveItems() { localStorage.setItem(LS_KEY, JSON.stringify(items)); }
+let items = [];
 
-let items = loadItems();
-saveItems();
+async function initItems() {
+  const { data, error } = await db.from('registry_items').select('*').order('sort_order');
+  if (error) { console.error('Supabase load error:', error); return; }
+  if (data.length === 0) {
+    const seeded = DEFAULT_ITEMS.map((item, i) => ({ ...item, sort_order: i }));
+    const { error: seedError } = await db.from('registry_items').insert(seeded);
+    if (seedError) { console.error('Supabase seed error:', seedError); return; }
+    items = seeded;
+  } else {
+    items = data;
+  }
+  renderRegistry();
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    RENDER REGISTRY
@@ -472,18 +498,25 @@ function markPurchased(id) {
     'Mark as Purchased?',
     `"${item?.name || 'This item'}" will be removed from the registry. You can restore it from the admin panel.`,
     'Mark Purchased',
-    () => {
+    async () => {
+      const t = items.find(i => i.id === id);
+      if (t) t.purchased = true;
+      const { error } = await db.from('registry_items').update({ purchased: true }).eq('id', id);
+      if (error) console.error('markPurchased error:', error);
+
       const scene = document.querySelector(`.card-scene[data-id="${id}"]`);
-      if (!scene) return;
+      if (!scene) {
+        renderRegistry();
+        renderAdminList();
+        showToast('🎀', 'Gift marked as purchased — thank you!', 'success');
+        return;
+      }
 
       /* burst from card center before it flips away */
       burstParticles(scene);
 
       scene.classList.add('purchased-anim');
       scene.addEventListener('animationend', () => {
-        const t = items.find(i => i.id === id);
-        if (t) t.purchased = true;
-        saveItems();
         renderRegistry();
         renderAdminList();
         showToast('🎀', 'Gift marked as purchased — thank you!', 'success');
@@ -550,8 +583,9 @@ function adminAddItem() {
   if (!name)  { showToast('⚠️', 'Please enter an item name', 'error');  return; }
   if (!price) { showToast('⚠️', 'Please enter a price',     'error'); return; }
 
-  items.push({ id: uid(), name, price, image, url, purchased: false });
-  saveItems();
+  const newItem = { id: uid(), name, price, image, url, purchased: false, sort_order: items.length };
+  items.push(newItem);
+  db.from('registry_items').insert(newItem).then(({ error }) => { if (error) console.error('insert error:', error); });
   renderRegistry();
   renderAdminList();
 
@@ -568,7 +602,8 @@ function adminDeleteItem(id) {
     'Remove',
     () => {
       items = items.filter(i => i.id !== id);
-      saveItems(); renderRegistry(); renderAdminList();
+      db.from('registry_items').delete().eq('id', id).then(({ error }) => { if (error) console.error('delete error:', error); });
+      renderRegistry(); renderAdminList();
       showToast('✓', 'Item removed', 'success');
     }
   );
@@ -578,7 +613,8 @@ function adminResetItem(id) {
   const item = items.find(i => i.id === id);
   if (item) {
     item.purchased = false;
-    saveItems(); renderRegistry(); renderAdminList();
+    db.from('registry_items').update({ purchased: false }).eq('id', id).then(({ error }) => { if (error) console.error('reset error:', error); });
+    renderRegistry(); renderAdminList();
     showToast('✦', 'Item reset to available', 'success');
   }
 }
@@ -736,4 +772,4 @@ function switchTheme(theme) {
    INIT
 ═══════════════════════════════════════════════════════════════════════════ */
 applyTheme(localStorage.getItem(THEME_LS_KEY) || 'girl');
-renderRegistry();
+initItems();
