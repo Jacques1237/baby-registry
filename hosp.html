@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hospitaal Tassies 🏥</title>
+  <link id="favicon" rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Lato:wght@300;400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ── Custom background layer ─────────────────────────────────────────── */
+    #custom-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 100%;
+      z-index: 0;
+      background-size: contain;     /* shows full image */
+      background-position: top center;
+      background-repeat: repeat-y;  /* continues while scrolling */
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity .5s;
+    }
+
+    #custom-bg.has-bg {
+      opacity: .30;
+    }
+    /* ── Hero ────────────────────────────────────────────────────────────── */
+    .hosp-hero {
+      position: relative;
+      text-align: center;
+      padding: 100px 24px 60px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%,   rgba(242,167,187,.28) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 20% 80%,  rgba(232,213,183,.22) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 50% at 80% 50%,  rgba(201,126,138,.12) 0%, transparent 55%),
+        linear-gradient(170deg, #fdf6f0 0%, #fbeaf3 40%, #f8e4f2 65%, #fdf0e8 100%);
+    }
+    .hosp-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+      padding-bottom: 60px;
+    }
+    .hosp-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 700;
+      color: var(--brown);
+      line-height: 1.15;
+      margin-bottom: 16px;
+      text-shadow:
+        1px 1px 0   rgba(201,126,138,.30),
+        2px 2px 0   rgba(201,126,138,.27),
+        3px 3px 0   rgba(201,126,138,.24),
+        4px 4px 0   rgba(201,126,138,.20),
+        5px 5px 0   rgba(201,126,138,.16),
+        6px 6px 0   rgba(201,126,138,.12),
+        7px 7px 0   rgba(201,126,138,.08),
+        10px 14px 28px rgba(201,126,138,.28);
+    }
+    .hosp-subtitle {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.18rem;
+      font-weight: 300;
+      color: var(--brown-light);
+      line-height: 1.8;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .hosp-wave {
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      width: 100%; height: 80px;
+      z-index: 3; pointer-events: none;
+    }
+    .hosp-wave svg  { width: 100%; height: 100%; display: block; }
+    .hosp-wave-path { fill: var(--cream); }
+
+    /* ── Checklist section ───────────────────────────────────────────────── */
+    .checklist-section { padding: 80px 24px 100px; position: relative; overflow: hidden; }
+    .checklist-container { max-width: 1080px; margin: 0 auto; }
+
+    .checklist-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-bottom: 28px;
+      align-items: start;
+    }
+    .checklist-optional-row { display: flex; justify-content: center; }
+    .checklist-optional-row .checklist-card { max-width: 560px; width: 100%; }
+
+    /* ── Card ────────────────────────────────────────────────────────────── */
+    .checklist-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(242,167,187,.22);
+      box-shadow:
+        0 1px 2px  rgba(74,55,40,.05),
+        0 4px 12px rgba(74,55,40,.09),
+        0 14px 36px rgba(74,55,40,.08),
+        inset 0 1px 0 rgba(255,255,255,.95);
+      padding: 36px 38px;
+      transition: box-shadow .35s var(--ease-out), transform .35s var(--ease-out);
+    }
+    .checklist-card:hover {
+      box-shadow:
+        0 2px 4px  rgba(74,55,40,.07),
+        0 8px 24px rgba(74,55,40,.13),
+        0 24px 60px rgba(74,55,40,.12),
+        inset 0 1px 0 rgba(255,255,255,.95);
+      transform: translateY(-4px);
+    }
+
+    .checklist-card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 26px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(242,167,187,.22);
+    }
+    .checklist-card-icon { font-size: 1.25rem; line-height: 1; }
+    .checklist-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: var(--rose);
+      letter-spacing: .01em;
+      text-shadow: 1px 1px 0 rgba(201,126,138,.18), 2px 3px 8px rgba(201,126,138,.14);
+    }
+
+    /* Edit toggle button — lives in the card header, pushed to the right */
+    .edit-toggle-btn {
+      margin-left: auto;
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid rgba(242,167,187,.4);
+      background: transparent;
+      color: var(--brown-xlight);
+      font-size: .82rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .18s;
+    }
+    .edit-toggle-btn:hover {
+      background: var(--blush-xlight);
+      border-color: var(--blush);
+      color: var(--rose);
+    }
+    .edit-toggle-btn.active {
+      background: linear-gradient(135deg, var(--blush-xlight), rgba(242,167,187,.25));
+      border-color: var(--blush);
+      color: var(--rose);
+    }
+
+    /* ── Checklist items ─────────────────────────────────────────────────── */
+    .checklist-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 9px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background .15s;
+      user-select: none;
+    }
+    .checklist-item:hover { background: rgba(242,167,187,.07); }
+    .checklist-item.checked .checklist-item-text {
+      text-decoration: line-through;
+      color: var(--brown-xlight);
+    }
+    .checklist-item.checked .checklist-bullet { background: var(--sand); }
+
+    .checklist-bullet {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blush);
+      flex-shrink: 0;
+      align-self: flex-start;
+      margin-top: 6px;
+      transition: background .18s;
+    }
+    .checklist-item-text {
+      flex: 1;
+      font-family: 'Lato', sans-serif;
+      font-size: .94rem;
+      color: var(--brown);
+      line-height: 1.5;
+      transition: color .18s;
+    }
+
+    /* Custom checkbox */
+    .checklist-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+      border: 2px solid rgba(242,167,187,.65);
+      border-radius: 5px;
+      background: var(--white);
+      cursor: pointer;
+      position: relative;
+      transition: border-color .15s, background .15s, box-shadow .15s, transform .15s var(--ease-spring);
+    }
+    .checklist-checkbox:hover {
+      border-color: var(--blush);
+      box-shadow: 0 0 0 3px rgba(242,167,187,.15);
+    }
+    .checklist-checkbox:checked {
+      background: linear-gradient(135deg, var(--blush), var(--rose));
+      border-color: var(--rose);
+      box-shadow: 0 2px 8px rgba(201,126,138,.4);
+      transform: scale(1.1);
+    }
+    .checklist-checkbox:checked::after {
+      content: '';
+      position: absolute;
+      left: 5px; top: 2px;
+      width: 7px; height: 11px;
+      border: 2.5px solid #fff;
+      border-top: none; border-left: none;
+      transform: rotate(45deg);
+    }
+
+    /* Delete button (edit mode) */
+    .item-delete-btn {
+      width: 26px;
+      height: 26px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      border: none;
+      background: rgba(224,112,112,.1);
+      color: #c05050;
+      font-size: .72rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s, transform .15s var(--ease-spring);
+    }
+    .item-delete-btn:hover { background: rgba(224,112,112,.22); transform: scale(1.15); }
+
+    /* Add-item row (edit mode) */
+    .checklist-add-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 10px 4px;
+      margin-top: 8px;
+      border-top: 1px dashed rgba(242,167,187,.35);
+    }
+    .add-item-input {
+      flex: 1;
+      padding: 8px 12px;
+      border: 1.5px solid rgba(242,167,187,.45);
+      border-radius: var(--radius-sm);
+      font-family: 'Lato', sans-serif;
+      font-size: .9rem;
+      color: var(--brown);
+      background: var(--cream);
+      outline: none;
+      transition: border-color .15s, box-shadow .15s, background .15s;
+    }
+    .add-item-input:focus {
+      border-color: var(--blush);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(242,167,187,.15);
+    }
+    .add-item-input::placeholder { color: var(--brown-xlight); }
+    .add-item-input.shake {
+      border-color: #e07070;
+      animation: inputShake .3s ease;
+    }
+    @keyframes inputShake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-4px); }
+      75%      { transform: translateX(4px); }
+    }
+
+    .add-item-btn {
+      width: 32px;
+      height: 32px;
+      flex-shrink: 0;
+      border-radius: var(--radius-sm);
+      border: none;
+      background: linear-gradient(135deg, var(--blush), var(--rose));
+      color: #fff;
+      font-size: 1.15rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(201,126,138,.35);
+      transition: transform .15s var(--ease-spring), box-shadow .15s;
+    }
+    .add-item-btn:hover { transform: scale(1.1); box-shadow: 0 4px 14px rgba(201,126,138,.45); }
+
+    /* Empty list message */
+    .checklist-empty-msg {
+      padding: 14px 10px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: .95rem;
+      color: var(--brown-xlight);
+      font-style: italic;
+    }
+
+    /* Remove animation */
+    .item-removing {
+      transition: opacity .2s, transform .2s, max-height .25s;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateX(16px);
+      max-height: 0 !important;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
+    }
+
+    /* ── Progress bar ────────────────────────────────────────────────────── */
+    .progress-bar-wrap {
+      margin-top: 22px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(242,167,187,.15);
+      transition: opacity .2s;
+    }
+    .progress-bar-wrap.hidden { opacity: 0; pointer-events: none; }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--brown-xlight);
+    }
+    .progress-bar { height: 5px; background: rgba(242,167,187,.2); border-radius: 3px; overflow: hidden; }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blush), var(--rose));
+      border-radius: 3px;
+      transition: width .4s var(--ease-out);
+      width: 0%;
+    }
+
+    /* ── Action row + background picker ─────────────────────────────────── */
+    .action-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 52px;
+      flex-wrap: wrap;
+    }
+    #reset-btn { transition: color .2s, border-color .2s; }
+
+    #bg-picker-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .38s var(--ease-out);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    #bg-picker-panel.open { max-height: 500px; }
+
+    .bg-picker-inner {
+      margin-top: 20px;
+      padding: 30px 34px;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(242,167,187,.22);
+      box-shadow:
+        0 4px 12px rgba(74,55,40,.09),
+        0 14px 36px rgba(74,55,40,.08),
+        inset 0 1px 0 rgba(255,255,255,.95);
+    }
+    .bg-picker-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(242,167,187,.2);
+    }
+    .bg-picker-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--rose);
+    }
+
+    .bg-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+    .bg-col-label {
+      display: block;
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--brown-xlight);
+      margin-bottom: 9px;
+    }
+    .bg-upload-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px 16px;
+      border: 1.5px dashed rgba(242,167,187,.55);
+      border-radius: var(--radius-sm);
+      background: var(--cream);
+      color: var(--brown-light);
+      font-family: 'Lato', sans-serif;
+      font-size: .82rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+      transition: all .18s;
+    }
+    .bg-upload-label:hover {
+      border-color: var(--blush);
+      color: var(--rose);
+      background: var(--blush-xlight);
+    }
+    .bg-status {
+      display: block;
+      margin-top: 6px;
+      font-size: .75rem;
+      font-family: 'Lato', sans-serif;
+      color: var(--brown-xlight);
+      min-height: 1em;
+    }
+    .bg-or {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--brown-xlight);
+      text-align: center;
+    }
+    .bg-url-row { display: flex; gap: 8px; }
+    .bg-url-field {
+      flex: 1;
+      padding: 9px 12px;
+      border: 1.5px solid var(--sand);
+      border-radius: var(--radius-sm);
+      font-family: 'Lato', sans-serif;
+      font-size: .88rem;
+      color: var(--brown);
+      background: var(--cream);
+      outline: none;
+      transition: border-color .15s, box-shadow .15s, background .15s;
+    }
+    .bg-url-field:focus {
+      border-color: var(--blush);
+      background: var(--white);
+      box-shadow: 0 0 0 3px rgba(242,167,187,.15);
+    }
+    .bg-url-field::placeholder { color: var(--brown-xlight); }
+
+    /* ── Responsive ──────────────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .checklist-row { grid-template-columns: 1fr; }
+      .checklist-card { padding: 28px 24px; }
+      .hosp-hero { padding-top: 80px; min-height: unset; }
+      .hosp-hero .hero-dec-left, .hosp-hero .hero-dec-right { display: none; }
+      .bg-grid { grid-template-columns: 1fr; }
+      .bg-or { display: none; }
+      .bg-picker-inner { padding: 24px 20px; }
+    }
+    @media (max-width: 480px) {
+      .checklist-card-title { font-size: 1.3rem; }
+      .checklist-item-text  { font-size: .88rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="bg-canvas"></canvas>
+
+  <div class="page-wrapper">
+
+    <!-- ── Navbar ───────────────────────────────────────────────────────── -->
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a href="index.html" class="nav-logo" style="text-decoration:none;">💕 Baby Registry</a>
+        <div class="nav-links">
+          <a href="index.html" class="nav-link">Registry</a>
+          <a href="hosp.html" class="nav-link" style="color:var(--rose);">Hospitaal Tas</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ── Hero ─────────────────────────────────────────────────────────── -->
+    <section class="hosp-hero">
+      <div class="hero-decoration hero-dec-left">✿</div>
+      <div class="hero-decoration hero-dec-right">✿</div>
+
+      <div class="hosp-hero-content">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-line"></span>
+          <span class="eyebrow-text">Hospital Prep</span>
+          <span class="eyebrow-line"></span>
+        </div>
+
+        <h1 class="hosp-title">Hospitaal Tassies</h1>
+
+        <p class="hosp-subtitle">
+          Alles wat jy sal benodig vir die groot dag. Merk af soos jy pak!
+        </p>
+      </div>
+
+      <div class="hosp-wave">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="hosp-wave-path" d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- ── Checklist ────────────────────────────────────────────────────── -->
+    <section class="checklist-section">
+      <div id="custom-bg"></div>
+      <div class="checklist-container">
+
+        <!-- Baba + Mamma -->
+        <div class="checklist-row">
+
+          <div class="checklist-card">
+            <div class="checklist-card-header">
+              <span class="checklist-card-icon">🌸</span>
+              <h2 class="checklist-card-title">Baba</h2>
+              <button class="edit-toggle-btn" id="edit-btn-baba" onclick="toggleEdit('baba')" title="Wysig lys">✏</button>
+            </div>
+            <ul class="checklist-list" id="list-baba"></ul>
+            <div class="progress-bar-wrap" id="progress-wrap-baba">
+              <div class="progress-label">
+                <span>Vordering</span>
+                <span id="progress-text-baba">0 / 0</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" id="progress-fill-baba"></div></div>
+            </div>
+          </div>
+
+          <div class="checklist-card">
+            <div class="checklist-card-header">
+              <span class="checklist-card-icon">🌸</span>
+              <h2 class="checklist-card-title">Mamma</h2>
+              <button class="edit-toggle-btn" id="edit-btn-mamma" onclick="toggleEdit('mamma')" title="Wysig lys">✏</button>
+            </div>
+            <ul class="checklist-list" id="list-mamma"></ul>
+            <div class="progress-bar-wrap" id="progress-wrap-mamma">
+              <div class="progress-label">
+                <span>Vordering</span>
+                <span id="progress-text-mamma">0 / 0</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" id="progress-fill-mamma"></div></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Opsioneel -->
+        <div class="checklist-optional-row">
+          <div class="checklist-card">
+            <div class="checklist-card-header">
+              <span class="checklist-card-icon">✨</span>
+              <h2 class="checklist-card-title">Opsioneel</h2>
+              <button class="edit-toggle-btn" id="edit-btn-optional" onclick="toggleEdit('optional')" title="Wysig lys">✏</button>
+            </div>
+            <ul class="checklist-list" id="list-optional"></ul>
+            <div class="progress-bar-wrap" id="progress-wrap-optional">
+              <div class="progress-label">
+                <span>Vordering</span>
+                <span id="progress-text-optional">0 / 0</span>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" id="progress-fill-optional"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="action-row">
+          <button id="reset-btn" class="btn btn-ghost" onclick="resetAll()">↩ Reset afmerkings</button>
+          <button class="btn btn-ghost" onclick="toggleBgPicker()">🖼 Agtergrond</button>
+        </div>
+
+        <!-- Background picker (max-height collapsible) -->
+        <div id="bg-picker-panel">
+          <div class="bg-picker-inner">
+            <div class="bg-picker-header">
+              <span style="font-size:1.1rem;">🖼</span>
+              <span class="bg-picker-title">Agtergrond wysig</span>
+            </div>
+            <div class="bg-grid">
+              <!-- File upload -->
+              <div>
+                <span class="bg-col-label">Laai foto op</span>
+                <label class="bg-upload-label">
+                  📁 Kies foto
+                  <input type="file" id="bg-file" accept="image/*" style="display:none;" />
+                </label>
+                <span class="bg-status" id="bg-status"></span>
+              </div>
+
+              <div class="bg-or">of</div>
+
+              <!-- URL input -->
+              <div>
+                <span class="bg-col-label">Plak 'n URL</span>
+                <div class="bg-url-row">
+                  <input type="url" id="bg-url" class="bg-url-field" placeholder="https://…" />
+                  <button class="btn btn-primary btn-sm" onclick="setBgUrl()">Stel</button>
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-ghost btn-full" style="margin-top:18px;" onclick="removeBg()">
+              ✕ Verwyder agtergrond
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Footer ───────────────────────────────────────────────────────── -->
+    <footer class="site-footer">
+      <div class="footer-heart">♡</div>
+      <p>Made with love for our baby girl</p>
+    </footer>
+
+  </div><!-- /page-wrapper -->
+
+  <!-- ── Back to Top ──────────────────────────────────────────────────── -->
+  <div class="btt-wrapper" id="btt-wrapper">
+    <div class="btt-scene" id="btt-scene">
+      <div class="btt-back"></div>
+      <button class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="18 15 12 9 6 15"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    /* ═══════════════════════════════════════════════════════════════════════
+       SUPABASE CLIENT
+    ═══════════════════════════════════════════════════════════════════════ */
+    const SUPABASE_URL = 'https://sukwrxhagpizxktfyibc.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1a3dyeGhhZ3BpenhrdGZ5aWJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NzAzODUsImV4cCI6MjA5MTE0NjM4NX0.mixhGsJJpUcs74iaVj9aGac7rGGy4ZNHgGsHLpRAe18';
+    // Safe init — if CDN fails to load, db is null and mock guests still work
+    const db = window.supabase
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+      : null;
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       GUEST MODE STATE
+    ═══════════════════════════════════════════════════════════════════════ */
+    let guestMode = false;
+    let guestCode = null;
+    let guestRow  = null;
+
+    /* Mock guests — used for testing before Supabase is set up.
+       Query string:  hosp.html?g=test1   (or /hosp?g=test1 on Vercel)
+       Hash fallback: hosp.html#g=test1   (use this if query string gets stripped)
+       Check state + list edits persist in localStorage under guest-specific keys. */
+    const MOCK_GUESTS = {
+      'zoane': { _mock: true, name: 'Zoane',      theme: 'girl', message: 'Jou persoonlike paklys!',    background_url: 'Background2.png' },
+      'danita': { _mock: true, name: 'Danita',     theme: 'girl', message: '',        background_url: 'Background1.png' },
+      'inge': { _mock: true, name: 'Inge', theme: 'girl',  message: 'Spesiaal vir jou gemak!',    background_url: null },
+    };
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       STORAGE KEYS
+    ═══════════════════════════════════════════════════════════════════════ */
+    const ITEMS_KEY = 'hosp_items_v1';
+    const STATE_KEY = 'hosp_state_v1';
+    const BG_KEY    = 'hosp_bg_v1';
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       DEFAULT ITEM TEXTS
+    ═══════════════════════════════════════════════════════════════════════ */
+    const DEFAULT_TEXTS = {
+      baba: [
+        'X2 prem vessies','X2 newborn vessies','X4 babygrows','X4 kousies',
+        'X1 dun kombersie','X1 dik kombersie','Mussie (prem/newborn)','Wipes',
+        'Doeke (20 om en by)','Boudjie salf','Lyfseep/room','X2 Spoegdoeke',
+        'Surgical spirits','Watte/oorstokkies','Dummy','Handdoekie',
+        'Waslappie','Oulike klere vir huistoe gaan',
+      ],
+      mamma: [
+        'X2 stelle pjs (maklikste met knope vir borsvoeding)','Japon',
+        'Slippers','Tekkies/plakkies','Nursing bras','Linen savers',
+        'X12 maternity pads','Maternity/Hospital panties','Handdoek',
+        'Toiletries (tandeborsel/pasta, borsel, makeup, seep, rekkies, lyfroom)',
+        'Charger, 2punt plug','Gemaklike klere vir huistoe gaan',
+      ],
+      optional: [
+        'Nippel cream','Breast pads','Handpomp','Borsvoed kussing',
+        'Bottel','Formule','Naelknippertjie','Earphones',
+        'Snacks (sweets/biltong/neute/provitas)',
+      ],
+    };
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       ITEM STORAGE — each item: { id, text }
+    ═══════════════════════════════════════════════════════════════════════ */
+    function genId() { return Math.random().toString(36).slice(2,9) + Date.now().toString(36); }
+
+    function loadItems() {
+      if (guestMode && guestRow) {
+        const list = guestRow.list || {};
+        if (list?.baba?.length || list?.mamma?.length || list?.optional?.length) return list;
+        const fresh = {};
+        for (const [s, texts] of Object.entries(DEFAULT_TEXTS)) {
+          fresh[s] = texts.map(text => ({ id: genId(), text }));
+        }
+        guestRow.list = fresh;
+        saveItems(fresh);
+        return fresh;
+      }
+      try {
+        const stored = JSON.parse(localStorage.getItem(ITEMS_KEY));
+        if (stored?.baba?.length || stored?.mamma?.length || stored?.optional?.length) return stored;
+      } catch {}
+      const fresh = {};
+      for (const [s, texts] of Object.entries(DEFAULT_TEXTS)) {
+        fresh[s] = texts.map(text => ({ id: genId(), text }));
+      }
+      saveItems(fresh);
+      return fresh;
+    }
+
+    function saveItems(items) {
+      if (guestMode && guestCode) {
+        if (guestRow) guestRow.list = items;
+        if (guestRow?._mock) {
+          localStorage.setItem(`hosp_items_${guestCode}`, JSON.stringify(items));
+          return;
+        }
+        if (db) db.from('guest_table').update({ list: items }).eq('code', guestCode)
+          .then(({ error }) => { if (error) console.error('saveItems error:', error); });
+        return;
+      }
+      localStorage.setItem(ITEMS_KEY, JSON.stringify(items));
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       CHECK STATE — keyed by item id
+    ═══════════════════════════════════════════════════════════════════════ */
+    function loadState() {
+      if (guestMode && guestRow) return guestRow.checked || {};
+      try { return JSON.parse(localStorage.getItem(STATE_KEY)) || {}; }
+      catch { return {}; }
+    }
+
+    function saveState(s) {
+      if (guestMode && guestCode) {
+        if (guestRow) guestRow.checked = s;
+        if (guestRow?._mock) {
+          localStorage.setItem(`hosp_state_${guestCode}`, JSON.stringify(s));
+          return;
+        }
+        if (db) db.from('guest_table').update({ checked: s }).eq('code', guestCode)
+          .then(({ error }) => { if (error) console.error('saveState error:', error); });
+        return;
+      }
+      localStorage.setItem(STATE_KEY, JSON.stringify(s));
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       EDIT MODE
+    ═══════════════════════════════════════════════════════════════════════ */
+    const editModes = { baba: false, mamma: false, optional: false };
+
+    function toggleEdit(section) {
+      editModes[section] = !editModes[section];
+      renderList(section);
+    }
+
+    function refreshEditBtn(section) {
+      const btn = document.getElementById(`edit-btn-${section}`);
+      if (!btn) return;
+      const active = editModes[section];
+      btn.textContent = active ? '✓' : '✏';
+      btn.title       = active ? 'Klaar wysig' : 'Wysig lys';
+      btn.classList.toggle('active', active);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       RENDER
+    ═══════════════════════════════════════════════════════════════════════ */
+    function renderList(section) {
+      const ul     = document.getElementById(`list-${section}`);
+      const allItems = loadItems();
+      const items  = allItems[section] || [];
+      const state  = loadState();
+      const isEdit = editModes[section];
+
+      ul.innerHTML = '';
+
+      if (items.length === 0) {
+        const msg = document.createElement('li');
+        msg.className = 'checklist-empty-msg';
+        msg.textContent = isEdit ? 'Voeg items by hieronder.' : 'Geen items nie. Klik ✏ om te wysig.';
+        ul.appendChild(msg);
+      }
+
+      items.forEach(item => {
+        const checked = !isEdit && !!state[item.id];
+        const li = document.createElement('li');
+        li.className = `checklist-item${checked ? ' checked' : ''}`;
+        li.style.maxHeight = '120px'; // needed for remove animation
+
+        if (isEdit) {
+          li.innerHTML = `
+            <span class="checklist-bullet"></span>
+            <span class="checklist-item-text">${esc(item.text)}</span>
+            <button class="item-delete-btn" aria-label="Verwyder">✕</button>
+          `;
+          li.querySelector('.item-delete-btn').addEventListener('click', () => deleteItem(section, item.id, li));
+        } else {
+          li.innerHTML = `
+            <span class="checklist-bullet"></span>
+            <span class="checklist-item-text">${esc(item.text)}</span>
+            <input type="checkbox" class="checklist-checkbox" ${checked ? 'checked' : ''}
+              aria-label="${esc(item.text)}" />
+          `;
+          const cb = li.querySelector('.checklist-checkbox');
+          li.addEventListener('click', e => {
+            if (e.target === cb) return;
+            cb.checked = !cb.checked;
+            applyToggle(section, item.id, cb.checked, li);
+          });
+          cb.addEventListener('change', () => applyToggle(section, item.id, cb.checked, li));
+        }
+
+        ul.appendChild(li);
+      });
+
+      // Add-item row in edit mode
+      if (isEdit) {
+        const addLi = document.createElement('li');
+        addLi.className = 'checklist-add-row';
+        addLi.innerHTML = `
+          <input type="text" class="add-item-input" id="add-input-${section}"
+            placeholder="Nuwe item…" maxlength="120" />
+          <button class="add-item-btn" aria-label="Voeg by">+</button>
+        `;
+        addLi.querySelector('.add-item-input').addEventListener('keydown', e => {
+          if (e.key === 'Enter') addItem(section);
+        });
+        addLi.querySelector('.add-item-btn').addEventListener('click', () => addItem(section));
+        ul.appendChild(addLi);
+
+        // Focus the input
+        requestAnimationFrame(() => {
+          const inp = document.getElementById(`add-input-${section}`);
+          if (inp) inp.focus();
+        });
+      }
+
+      // Toggle progress bar visibility
+      const wrap = document.getElementById(`progress-wrap-${section}`);
+      if (wrap) wrap.classList.toggle('hidden', isEdit);
+
+      if (!isEdit) updateProgress(section);
+      refreshEditBtn(section);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       ITEM ACTIONS
+    ═══════════════════════════════════════════════════════════════════════ */
+    function applyToggle(section, itemId, checked, li) {
+      const state = loadState();
+      if (checked) state[itemId] = true; else delete state[itemId];
+      saveState(state);
+      li.classList.toggle('checked', checked);
+      updateProgress(section);
+    }
+
+    function addItem(section) {
+      const input = document.getElementById(`add-input-${section}`);
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text) {
+        input.classList.add('shake');
+        input.addEventListener('animationend', () => input.classList.remove('shake'), { once: true });
+        return;
+      }
+      const allItems = loadItems();
+      allItems[section].push({ id: genId(), text });
+      saveItems(allItems);
+      input.value = '';
+      renderList(section);
+    }
+
+    function deleteItem(section, itemId, li) {
+      li.classList.add('item-removing');
+      li.addEventListener('transitionend', () => {
+        const allItems = loadItems();
+        allItems[section] = allItems[section].filter(i => i.id !== itemId);
+        saveItems(allItems);
+
+        const state = loadState();
+        delete state[itemId];
+        saveState(state);
+
+        renderList(section);
+        updateProgress(section);
+      }, { once: true });
+    }
+
+    function updateProgress(section) {
+      const items = (loadItems()[section] || []);
+      const state = loadState();
+      const total = items.length;
+      const done  = items.filter(i => !!state[i.id]).length;
+      const pct   = total ? Math.round((done / total) * 100) : 0;
+
+      const t = document.getElementById(`progress-text-${section}`);
+      const f = document.getElementById(`progress-fill-${section}`);
+      if (t) t.textContent = `${done} / ${total}`;
+      if (f) f.style.width = `${pct}%`;
+    }
+
+    /* ── Two-step reset ──────────────────────────────────────────────────── */
+    let _resetTimer = null;
+
+    function resetAll() {
+      const btn = document.getElementById('reset-btn');
+      if (_resetTimer) {
+        clearTimeout(_resetTimer);
+        _resetTimer = null;
+        saveState({});
+        ['baba','mamma','optional'].forEach(renderList);
+        btn.textContent = '↩ Reset afmerkings';
+        btn.style.color = ''; btn.style.borderColor = '';
+        return;
+      }
+      btn.textContent = '⚠ Klik weer om te bevestig';
+      btn.style.color = 'var(--rose)'; btn.style.borderColor = 'var(--rose)';
+      _resetTimer = setTimeout(() => {
+        _resetTimer = null;
+        btn.textContent = '↩ Reset afmerkings';
+        btn.style.color = ''; btn.style.borderColor = '';
+      }, 3000);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       BACKGROUND
+    ═══════════════════════════════════════════════════════════════════════ */
+    let _bgPickerOpen = false;
+
+    function toggleBgPicker() {
+      _bgPickerOpen = !_bgPickerOpen;
+      document.getElementById('bg-picker-panel').classList.toggle('open', _bgPickerOpen);
+    }
+
+    function applyBg(src) {
+      const el = document.getElementById('custom-bg');
+      if (src) {
+        el.style.backgroundImage = `url(${JSON.stringify(src)})`;
+        el.classList.add('has-bg');
+      } else {
+        el.style.backgroundImage = 'none';
+        el.classList.remove('has-bg');
+      }
+    }
+
+    function setBgUrl() {
+      const url = document.getElementById('bg-url').value.trim();
+      if (!url) return;
+      localStorage.setItem(BG_KEY, url);
+      applyBg(url);
+      showBgStatus('✓ Agtergrond gestel!');
+    }
+
+    function removeBg() {
+      localStorage.removeItem(BG_KEY);
+      applyBg(null);
+      document.getElementById('bg-url').value = '';
+      document.getElementById('bg-file').value = '';
+      showBgStatus('Agtergrond verwyder.');
+    }
+
+    function showBgStatus(msg) {
+      const el = document.getElementById('bg-status');
+      el.textContent = msg;
+      setTimeout(() => { el.textContent = ''; }, 2500);
+    }
+
+    // File upload — compress with canvas before storing
+    document.getElementById('bg-file').addEventListener('change', function () {
+      const file = this.files[0];
+      if (!file) return;
+      showBgStatus('Besig om te laai…');
+
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          const MAX = 1200;
+          let w = img.width, h = img.height;
+          if (w > MAX || h > MAX) {
+            const r = Math.min(MAX / w, MAX / h);
+            w = Math.round(w * r); h = Math.round(h * r);
+          }
+          const cv = document.createElement('canvas');
+          cv.width = w; cv.height = h;
+          cv.getContext('2d').drawImage(img, 0, 0, w, h);
+
+          let data = cv.toDataURL('image/jpeg', .72);
+          if (data.length > 1_800_000) data = cv.toDataURL('image/jpeg', .45);
+
+          try {
+            localStorage.setItem(BG_KEY, data);
+            applyBg(data);
+            showBgStatus('✓ Agtergrond gestel!');
+          } catch {
+            showBgStatus("⚠ Foto te groot. Probeer 'n URL.");
+          }
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       UTIL
+    ═══════════════════════════════════════════════════════════════════════ */
+    function esc(s) {
+      return String(s || '')
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       THEME — reads the same key the registry admin uses
+    ═══════════════════════════════════════════════════════════════════════ */
+    const THEME_LS_KEY = 'registry_theme';
+
+    const THEME_CANVAS_PAL = {
+      girl: ['rgba(242,167,187,','rgba(247,197,208,','rgba(232,213,183,',
+             'rgba(212,184,150,','rgba(201,126,138,','rgba(252,236,224,','rgba(249,230,248,'],
+      boy:  ['rgba(136,196,238,','rgba(170,217,247,','rgba(168,196,216,',
+             'rgba(138,174,196,','rgba(58,134,204,', 'rgba(223,240,251,','rgba(204,228,245,'],
+    };
+
+    function applyHospTheme(theme) {
+      const t = (theme === 'boy') ? 'boy' : 'girl';
+      document.documentElement.dataset.theme = t;
+      const isGirl = t !== 'boy';
+
+      const logo = document.querySelector('.nav-logo');
+      if (logo) logo.textContent = isGirl ? '💕 Baby Registry' : '💙 Baby Registry';
+
+      const heart = document.querySelector('.footer-heart');
+      if (heart) heart.textContent = isGirl ? '♡' : '💙';
+
+      const tagline = document.querySelector('.site-footer p');
+      if (tagline) tagline.textContent = isGirl
+        ? 'Made with love for our baby girl'
+        : 'Made with love for our baby boy';
+    }
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       INIT
+    ═══════════════════════════════════════════════════════════════════════ */
+    async function initGuest() {
+      // Support both ?g=code (query string) and #g=code (hash — survives Vercel cleanUrls redirect)
+      const qCode = new URLSearchParams(location.search).get('g');
+      const hCode = new URLSearchParams(location.hash.replace(/^#/, '')).get('g');
+      const code  = qCode || hCode;
+
+      if (code) {
+        // Check mock guests first (no Supabase needed)
+        const mock = MOCK_GUESTS[code];
+        if (mock) {
+          guestMode = true;
+          guestCode = code;
+          guestRow  = {
+            ...mock,
+            list:    JSON.parse(localStorage.getItem(`hosp_items_${code}`) || 'null') || {},
+            checked: JSON.parse(localStorage.getItem(`hosp_state_${code}`) || 'null') || {},
+          };
+          applyHospTheme(mock.theme || 'girl');
+          const sub = document.querySelector('.hosp-subtitle');
+          if (sub) sub.textContent = `Hallo ${mock.name}! ${mock.message || 'Merk af soos jy pak!'}`;
+          if (mock.background_url) applyBg(mock.background_url);
+        } else if (db) {
+          // Fall back to Supabase for real guests
+          const { data, error } = await db.from('guest_table').select('*').eq('code', code).single();
+          if (!error && data) {
+            guestMode = true;
+            guestCode = code;
+            guestRow  = data;
+            applyHospTheme(data.theme || 'girl');
+            const sub = document.querySelector('.hosp-subtitle');
+            if (sub && data.name) {
+              sub.textContent = `Hallo ${data.name}! ${data.message || 'Merk af soos jy pak!'}`;
+            }
+            if (data.background_url) applyBg(data.background_url);
+          }
+        }
+
+        if (guestMode) {
+          // Hide bg picker — background is set by whoever sent the link
+          const bgBtn = document.querySelector('button[onclick="toggleBgPicker()"]');
+          if (bgBtn) bgBtn.style.display = 'none';
+        }
+      }
+
+      ['baba','mamma','optional'].forEach(renderList);
+
+      if (!guestMode) {
+        applyBg(localStorage.getItem(BG_KEY));
+        applyHospTheme(localStorage.getItem(THEME_LS_KEY));
+        window.addEventListener('storage', e => {
+          if (e.key === THEME_LS_KEY) applyHospTheme(e.newValue);
+        });
+      }
+    }
+
+    initGuest();
+
+    /* ═══════════════════════════════════════════════════════════════════════
+       CANVAS BACKGROUND
+    ═══════════════════════════════════════════════════════════════════════ */
+    (function () {
+      const canvas = document.getElementById('bg-canvas');
+      const ctx    = canvas.getContext('2d');
+      let W, H;
+      const FOV = 500, N_DEEP = 18, N_STARS = 55;
+      const rand = () => {
+        const pal = THEME_CANVAS_PAL[document.documentElement.dataset.theme] || THEME_CANVAS_PAL.girl;
+        return pal[Math.floor(Math.random() * pal.length)];
+      };
+      const mkBlob = () => ({
+        x:(Math.random()-.5)*2, y:(Math.random()-.5)*2,
+        z:200+Math.random()*900, r:60+Math.random()*150,
+        a:.03+Math.random()*.055, color:rand(),
+        phase:Math.random()*Math.PI*2, dz:.12+Math.random()*.3,
+      });
+      const mkStar = () => ({
+        x:(Math.random()-.5)*2, y:(Math.random()-.5)*2,
+        z:Math.random()*1400, r:.8+Math.random()*2.2,
+        a:.12+Math.random()*.2, color:rand(), dz:.5+Math.random()*1.8,
+      });
+      const resetZ = p => { p.z = 1200 + Math.random() * 300; };
+      const resize = () => { W = canvas.width = innerWidth; H = canvas.height = innerHeight; };
+      const proj   = p => { const s = FOV/(FOV+p.z); return {sx:p.x*W*.5*s+W*.5, sy:p.y*H*.5*s+H*.5}; };
+
+      resize();
+      const blobs = Array.from({length:N_DEEP}, mkBlob);
+      const stars = Array.from({length:N_STARS}, mkStar);
+      window.addEventListener('resize', resize);
+
+      (function draw(t) {
+        ctx.clearRect(0,0,W,H);
+        blobs.forEach(b => {
+          b.z -= b.dz;
+          if (b.z < 10) { b.x=(Math.random()-.5)*2; b.y=(Math.random()-.5)*2; resetZ(b); }
+          const {sx,sy} = proj(b);
+          const s = FOV/(FOV+b.z), R = b.r*s, pulse = 1+.07*Math.sin(t*.002+b.phase);
+          const g = ctx.createRadialGradient(sx,sy,0,sx,sy,R*pulse);
+          g.addColorStop(0,b.color+b.a+')'); g.addColorStop(.5,b.color+(b.a*.4)+')'); g.addColorStop(1,b.color+'0)');
+          ctx.beginPath(); ctx.arc(sx,sy,R*pulse,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+        });
+        stars.forEach(s => {
+          s.z -= s.dz;
+          if (s.z < 1) { s.x=(Math.random()-.5)*2; s.y=(Math.random()-.5)*2; resetZ(s); }
+          const {sx,sy} = proj(s);
+          const sc = FOV/(FOV+s.z), R = s.r*sc*1.6, fade = Math.min(1,(1200-s.z)/300);
+          ctx.beginPath(); ctx.arc(sx,sy,Math.max(.3,R),0,Math.PI*2);
+          ctx.fillStyle = s.color+(s.a*fade)+')'; ctx.fill();
+        });
+        requestAnimationFrame(draw);
+      })(0);
+    })();
+
+    /* ── Back to top ─────────────────────────────────────────────────────── */
+    const _bttW = document.getElementById('btt-wrapper');
+    const _bttS = document.getElementById('btt-scene');
+    window.addEventListener('scroll', () => { _bttW.classList.toggle('visible', scrollY > 250); }, {passive:true});
+    (function () {
+      let tx=0,ty=0,cx=0,cy=0,over=false,raf=null;
+      const lerp = (a,b,t) => a+(b-a)*t;
+      function tick() {
+        cx=lerp(cx,tx,over?.12:.08); cy=lerp(cy,ty,over?.12:.08);
+        _bttS.style.transform=`rotateX(${cx}deg) rotateY(${cy}deg)`;
+        if (Math.abs(cx-tx)>.01||Math.abs(cy-ty)>.01||over) raf=requestAnimationFrame(tick);
+        else { cx=tx; cy=ty; _bttS.style.transform=''; }
+      }
+      _bttW.addEventListener('mouseenter', () => { over=true; cancelAnimationFrame(raf); raf=requestAnimationFrame(tick); });
+      _bttW.addEventListener('mousemove', e => {
+        const r=_bttW.getBoundingClientRect();
+        tx=-((e.clientY-r.top)/r.height-.5)*36;
+        ty=((e.clientX-r.left)/r.width-.5)*36;
+      });
+      _bttW.addEventListener('mouseleave', () => { over=false; tx=0; ty=0; cancelAnimationFrame(raf); raf=requestAnimationFrame(tick); });
+    })();
+  </script>
+</body>
+</html>
