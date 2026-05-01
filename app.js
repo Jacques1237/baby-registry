@@ -608,6 +608,7 @@ function showAdminDashboard() {
   document.getElementById('admin-login-view').style.display     = 'none';
   document.getElementById('admin-dashboard-view').style.display = 'block';
   renderAdminList();
+  renderGuestList();
 }
 
 function adminLogout() {
@@ -844,4 +845,83 @@ window.addEventListener('scroll', () => {
   });
   _bttWrapper.addEventListener('mouseleave', () => { isOver = false; tx = 0; ty = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(tick); });
 })();
+/* ═══════════════════════════════════════════════════════════════════════════
+   GUEST LINKS
+═══════════════════════════════════════════════════════════════════════════ */
+async function adminCreateGuest() {
+  const name    = document.getElementById('new-guest-name').value.trim();
+  const theme   = document.getElementById('new-guest-theme').value;
+  const message = document.getElementById('new-guest-message').value.trim();
+  const bg      = document.getElementById('new-guest-bg').value.trim();
+
+  if (!name) { showToast('⚠️', 'Voer die gas se naam in', 'error'); return; }
+
+  const code = Math.random().toString(36).slice(2, 9);
+  const { error } = await db.from('guest_table').insert({
+    code,
+    name,
+    theme,
+    message:        message || null,
+    background_url: bg      || null,
+    list:           {},
+    checked:        {},
+  });
+
+  if (error) { showToast('⚠️', 'Fout: ' + error.message, 'error'); return; }
+
+  document.getElementById('new-guest-name').value    = '';
+  document.getElementById('new-guest-message').value = '';
+  document.getElementById('new-guest-bg').value      = '';
+
+  showToast('✦', `Skakel geskep vir ${name}!`, 'success');
+  renderGuestList();
+}
+
+async function renderGuestList() {
+  const list = document.getElementById('admin-guest-list');
+  if (!list) return;
+
+  const { data, error } = await db
+    .from('guest_table').select('*').order('created_at', { ascending: false });
+
+  if (error || !data?.length) {
+    list.innerHTML = '<p style="padding:8px 0;font-size:.85rem;color:var(--brown-xlight);">Geen gaste nie.</p>';
+    return;
+  }
+
+  list.innerHTML = data.map(g => {
+    const url = `${location.origin}/hosp.html?g=${encodeURIComponent(g.code)}`;
+    return `
+      <div class="admin-item-row" style="flex-wrap:wrap;gap:8px;align-items:center;">
+        <div class="admin-item-info" style="flex:1;min-width:0;">
+          <div class="admin-item-name">${esc(g.name)}</div>
+          <div class="admin-item-price">${g.theme === 'boy' ? '💙' : '💕'} ${g.theme}
+            &nbsp;·&nbsp;<code style="font-size:.78rem;">${esc(g.code)}</code>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-ghost" onclick="copyGuestLink('${esc(url)}')">📋 Kopieer</button>
+        <button class="btn-icon btn-icon-delete" title="Verwyder" onclick="adminDeleteGuest('${esc(g.id)}')">✕</button>
+      </div>`;
+  }).join('');
+}
+
+function copyGuestLink(url) {
+  navigator.clipboard.writeText(url)
+    .then(() => showToast('📋', 'Skakel gekopieer!', 'success'))
+    .catch(() => showToast('⚠️', 'Kon nie kopieer nie — URL: ' + url, 'error'));
+}
+
+async function adminDeleteGuest(id) {
+  showConfirm('🗑️', 'Verwyder Gas?',
+    'Die gas en al hul data sal permanent verwyder word.',
+    'Verwyder',
+    async () => {
+      const { error } = await db.from('guest_table').delete().eq('id', id);
+      if (error) { showToast('⚠️', 'Fout: ' + error.message, 'error'); return; }
+      showToast('✓', 'Gas verwyder', 'success');
+      renderGuestList();
+    }
+  );
+}
+
 initItems();

@@ -220,6 +220,40 @@
             </div>
           </div>
 
+          <!-- Guest Links -->
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <span class="admin-card-icon">✦</span>
+              <h3>Gaste Skakels</h3>
+            </div>
+            <p class="theme-desc">Skep 'n persoonlike hospitaal-tassies skakel vir elke gas.</p>
+            <div class="form-group">
+              <label>Gas Naam</label>
+              <input type="text" id="new-guest-name" placeholder="e.g. Tannie Ans" />
+            </div>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Tema</label>
+                <select id="new-guest-theme" style="padding:10px 14px;border:1.5px solid var(--sand);border-radius:var(--radius-sm);font-family:'Lato',sans-serif;font-size:.9rem;color:var(--brown);background:var(--cream);width:100%;outline:none;cursor:pointer;appearance:none;">
+                  <option value="girl">💕 Baby Girl</option>
+                  <option value="boy">💙 Baby Boy</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Boodskap (opsioneel)</label>
+                <input type="text" id="new-guest-message" placeholder="e.g. Spesiaal vir jou!" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Agtergrond URL (opsioneel)</label>
+              <input type="url" id="new-guest-bg" placeholder="https://…" />
+            </div>
+            <button class="btn btn-primary btn-full" onclick="adminCreateGuest()">
+              ✦ Skep Gaste Skakel
+            </button>
+            <div id="admin-guest-list" style="margin-top:18px;"></div>
+          </div>
+
         </div>
       </div>
     </div>
